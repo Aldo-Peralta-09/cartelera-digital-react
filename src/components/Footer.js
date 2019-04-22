@@ -5,8 +5,8 @@ class Footer extends Component{
         return(
             <footer id="footer" className="main-footer">
                 <div className="container">
-                    <div className="row row-gob">
-                        <div className="col-sm-4 col-md-4">
+                    <div className="row justify-content-center row-gob">
+                        <div className="col-sm-4 col-md-4 text-center">
                             <a href="http://www.hidalgo.gob.mx/">
                                 <img className="logo_gobhidalgo" alt="logotipo hidalgo.gob.mx" className="gobmx-footer" src="http://cdn.hidalgo.gob.mx/logo_gobhidalgo.svg" width="226" height="39" style={{marginTop:"90px"}} />
                             </a>

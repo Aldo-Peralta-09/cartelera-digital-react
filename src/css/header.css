@@ -29,7 +29,7 @@ body * {
 .nav-cal{
 	background-color: #092432 !important;
 }
-a.nav-link{
+.nav-link{
 	color: #fff !important;
 }
 .fa.fa-navicon {
@@ -67,7 +67,7 @@ a.nav-link{
     }
 }
 .logosecretaria{
-        background-image: url("http://cdn.hidalgo.gob.mx/plantilla_secretarial/logos/SecretariaEjecutivaDeLaPoliticaPublicaEstatalBlancas.png");
+        background-image: url("http://cdn.hidalgo.gob.mx/plantilla_secretarial/logos/SecretariaDeCulturaBlancas.png");
         vertical-align: top;
         background-color: transparent;
         background-repeat: no-repeat;

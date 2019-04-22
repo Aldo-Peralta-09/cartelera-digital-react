@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from "react-router-dom";
 
 class Header extends Component{
     render(){
@@ -35,18 +36,18 @@ class Header extends Component{
                 </nav>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar2">
                     <div className="container">
-                        <a href="/" className="navbar-brand" title="Ir a la página inicial">
+                        <Link to="/" className="navbar-brand">
                             <div className="logosecretaria"></div>
                             <div className="nombresecretaria">
                                 <strong>Cartelera Digital</strong>
                             </div>
-                        </a>
+                        </Link>
                         <button className="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown2" aria-controls="navbarNavDropdown2" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNavDropdown2">
                             <ul className="navbar-nav">
-                                <li><a className="nav-link" href="#" title="Servicios">Registrate</a></li>
+                                <li><Link className="nav-link" to="/signup">Registrate</Link></li>
                             </ul>
                         </div>
                     </div>
