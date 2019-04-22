@@ -6,6 +6,7 @@ import './css/footer.css';
 import Footer from './components/Footer';
 import Signin from './views/users/Signin';
 import Signup from './views/users/Signup';
+import Users from './views/users/Users';
 import { 
 	BrowserRouter as Router, 
 	Route,
@@ -22,6 +23,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Signin}/>
             <Route path="/signup" component={Signup}/>
+            <Route path="/users" component={Users}/>
           </Switch>
           <Footer/>
         </div>
