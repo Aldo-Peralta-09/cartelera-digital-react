@@ -1,0 +1,33 @@
+#footer{
+	background-color: #084866;
+	width:100%;
+	height: auto;
+	margin-top: 50px;
+}
+#footer p{
+	color: #fff;
+}
+.escudo_blanco{
+    margin: 0 auto;
+    display: block;
+    width: 50%;
+    height: auto;
+}
+@media (max-width: 576px){
+	.escudo_blanco{
+        margin-top: 50px;
+    }
+    .logo_gobhidalgo{
+        margin: 0 auto;
+        display: block;
+        margin-top: 50px !important;
+    }
+}
+
+.fab {
+    font-family: "Font Awesome 5 Brands" !important;
+}
+
+.redes a {
+    color: #fff;
+}
