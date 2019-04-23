@@ -9,18 +9,20 @@
 }
 .escudo_blanco{
     margin: 0 auto;
+    margin-top: 15px !important;
     display: block;
     width: 50%;
-    height: auto;
+    height: 75%;
 }
 @media (max-width: 576px){
 	.escudo_blanco{
-        margin-top: 50px;
+        margin-top: 25px !important;
     }
-    .logo_gobhidalgo{
-        margin: 0 auto;
-        display: block;
+    .logo_gobhidalgo,.gobmx-footer{
         margin-top: 50px !important;
+    }
+    .imgfoot p{
+        margin-bottom: 25px !important;
     }
 }
 

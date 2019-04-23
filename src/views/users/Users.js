@@ -12,7 +12,7 @@ class Users extends Component{
                             <div className="section-title">
                                 <h2>Usuarios Registrados</h2>
                                 <p className="separator">Directorio de Usuarios registrados en la Cartelera Digital</p>
-                                <Link to="/signup" className="btn btn-success scrollto">Agregar Usuario</Link>
+                                <Link to="/add-evnt" className="btn btn-success scrollto">Agregar Usuario</Link>
                             </div>
                         </div>
                     </div>

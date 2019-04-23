@@ -12,7 +12,7 @@ class Events extends Component{
                             <div className="section-title">
                                 <h2>Eventos Registrados</h2>
                                 <p className="separator">Catalogo de Eventos registrados en la Cartelera Digital</p>
-                                <div style={{paddingTop:"15px"}}><Link to="/" className="btn btn-success scrollto">Agregar Usuario</Link></div>
+                                <div style={{paddingTop:"15px"}}><Link to="/add-event" className="btn btn-success scrollto">Agregar Evento</Link></div>
                             </div>
                         </div>
                     </div>

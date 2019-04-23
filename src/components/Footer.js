@@ -5,22 +5,22 @@ class Footer extends Component{
         return(
             <footer id="footer" className="main-footer">
                 <div className="container">
-                    <div className="row justify-content-center row-gob">
-                        <div className="col-sm-4 col-md-4 text-center">
+                    <div className="row justify-content-center align-items-center row-gob">
+                        <div className="col-12 col-md-4 text-center align-items-center">
                             <a href="http://www.hidalgo.gob.mx/">
-                                <img className="logo_gobhidalgo" alt="logotipo hidalgo.gob.mx" className="gobmx-footer" src="http://cdn.hidalgo.gob.mx/logo_gobhidalgo.svg" width="226" height="39" style={{marginTop:"90px"}} />
+                                <img className="logo_gobhidalgo" alt="logotipo hidalgo.gob.mx" className="gobmx-footer" src="http://cdn.hidalgo.gob.mx/logo_gobhidalgo.svg" width="226" height="39"/>
                             </a>
                         </div>
-                        <div className="imgfoot col-12 col-sm-4 col-md-4">
+                        <div className="imgfoot col-12 col-md-4">
                             <img className="escudo_blanco" src="http://cdn.hidalgo.gob.mx/escudo_blanco.svg"/>
                             <p style={{textAlign:"center"}}>&copy; 2019 Gobierno del Estado de Hidalgo</p>
                         </div>
-                        <div className="col-sm-4 col-md-4 redes">
-                            <p style={{textAlign:"center",marginTop:"80px"}}>
+                        <div className="col-12 col-md-4 redes text-center">
+                            <p>
                                 <strong style={{fontSize:"20px"}}>Contacto</strong>
-                                <br></br>Plaza Juárez s/n Col. Centro
+                                <br></br>Calle General Ignacio Mejía, Colonia Morelos
                                 <br></br>Pachuca de Soto, Hidalgo, México
-                                <br></br>+52 (771) 71 76000
+                                <br></br>+52 (771) 107 0707
                             </p>
                             <div>
                                 <center>
