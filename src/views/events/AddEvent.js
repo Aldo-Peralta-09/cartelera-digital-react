@@ -1,7 +1,78 @@
 import React, {Component} from 'react';
 import {DISCIPLINES,CATEGORIES, MUNICIPALITIES, PLACES} from '../../data/data';
+import Schedule from '../../components/Input';
+import MainEvent from '../../components/MainEvent';
 
 class AddEvent extends Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            schedules : [{
+                title: "Horario ",
+                name: "hour"
+            }],
+            lenght: 1,
+            show: false
+        }
+    }
+
+    _loadComponent(){
+        let { show } = this.state;
+        if(show){
+            return <MainEvent/>
+        } else{
+            return null;
+        }
+    }
+
+    _showComponent(show){
+        if(!show){
+            show = true;
+            this.setState({
+                show: show
+            })
+        }
+    }
+
+    _hideComponent(show){
+        if(show){
+            show = false;
+            this.setState({
+                show: show
+            })
+        }
+    }
+
+    _remove(position){
+        let { schedules,lenght } = this.state;
+        let newSchedules = [
+            ...schedules.slice(0, position),
+            ...schedules.slice(position + 1),
+        ]
+
+        this.setState({
+            schedules:newSchedules,
+            lenght: --lenght
+        });
+    }
+
+    _add(){
+        let { schedules,lenght } = this.state;
+        ++lenght;
+        let newSchedules = [
+            ...schedules,
+            {
+                title: "Horario " + lenght,
+                name: "hour" + lenght
+            }
+        ]
+
+        this.setState({
+            schedules:newSchedules,
+            lenght: lenght
+        });
+    }
 
     render(){
         return(
@@ -29,7 +100,7 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Descripcion es requerido">
                                     <span className="label-input100">Descripción</span>
                                     <textarea name="description" className="input100" required></textarea>
-                                    <span class="focus-input100"></span>
+                                    <span className="focus-input100"></span>
                                 </div>
 
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Disciplina es requerido">
@@ -63,28 +134,29 @@ class AddEvent extends Component{
                                     <span className="focus-input100"></span>
                                 </div>
 
-                                <div className="flex-sb-m w-full p-b-30 validate-input" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Jerarquia es requerido">
+                                <div className="flex-sb-m w-full p-b-30 validate-input" style={{paddingTop:"15px"}} data-validate="Jerarquia es requerido">
                                     <span className="label-input100">Jerarquia</span>
                                     <div className="contact100-form-checkbox">
-                                        <input className="input-checkbox100" id="ckb1" type="radio" value="Evento" name="hierarchy" required/>
-                                        <label className="label-checkbox100" for="ckb1">
-                                            Evento
-                                        </label>
-                                        <br></br>
-                                        <input className="input-checkbox100" id="ckb2" type="radio" value="Sub-Evento" name="hierarchy" required/>
-                                        <label className="label-checkbox100" for="ckb2">
-                                            Sub-Evento
-                                        </label>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text">
+                                                    <input type="radio" id="ckb1" onChange={() => {this._hideComponent(this.state.show)}} name="hierarchy" aria-label="Checkbox for following text input"/>
+                                                </div>
+                                            </div>
+                                            <input type="text" className="form-control" placeholder="Evento" aria-label="Text input with checkbox" disabled/>
+                                        </div>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text">
+                                                    <input type="radio" id="ckb2" onChange={() => {this._showComponent(this.state.show)}} name="hierarchy" aria-label="Checkbox for following text input"/>
+                                                </div>
+                                            </div>
+                                            <input type="text" className="form-control" placeholder="Sub-Evento" aria-label="Text input with checkbox"disabled/>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div id="schedule"></div>
-
-                                <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Evento principal es requerido">
-                                    <span className="label-input100">Evento Principal</span>
-                                    <input className="input100" type="text" name="event"/>
-                                    <span className="focus-input100"></span>
-                                </div>
+                                {this._loadComponent()}
 
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Fecha de Inicio es requerido">
                                     <span className="label-input100">Fecha de Inicio</span>
@@ -96,6 +168,18 @@ class AddEvent extends Component{
                                     <span className="label-input100">Fecha de Termino</span>
                                     <input className="input100" type="date" name="finish" required/>
                                     <span className="focus-input100"></span>
+                                </div>
+
+                                {
+                                    this.state.schedules.map((schedule,index) => 
+                                        <Schedule data={schedule} key={index} onRemove={() => this._remove(index)}/>
+                                    )
+                                }
+
+                                <div className="container-login100-form-btn">
+                                    <button className="login100-form-btn" onClick={this._add.bind(this)} type="button">
+                                        Agregar Horario
+                                    </button>
                                 </div>
 
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Municipio es requerido">
@@ -157,18 +241,25 @@ class AddEvent extends Component{
                                     <span className="focus-input100"></span>
                                 </div>
 
-                                <div className="flex-sb-m w-full p-b-30" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Descuentos es requerido">
+                                <div className="flex-sb-m w-full p-b-30 validate-input" style={{paddingTop:"15px"}} data-validate="Descuentos es requerido">
                                     <span className="label-input100">Descuentos</span>
                                     <div className="contact100-form-checkbox">
-                                        <input className="input-checkbox100" id="ckb10" type="checkbox" value="INAPAM" name="discount"/>
-                                        <label className="label-checkbox100" for="ckb10">
-                                            INAPAM
-                                        </label>
-                                        <br></br>
-                                        <input className="input-checkbox100" id="ckb20" type="checkbox" value="Estudiantes" name="discount"/>
-                                        <label className="label-checkbox100" for="ckb20">
-                                            Estudiantes
-                                        </label>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text">
+                                                    <input type="checkbox" id="ckb10" name="discount" aria-label="Checkbox for following text input"/>
+                                                </div>
+                                            </div>
+                                            <input type="text" className="form-control" placeholder="INAPAM" value="INAPAM" aria-label="Text input with checkbox" disabled/>
+                                        </div>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text">
+                                                    <input type="checkbox" id="ckb20" name="discount" aria-label="Checkbox for following text input"/>
+                                                </div>
+                                            </div>
+                                            <input type="text" className="form-control" placeholder="Estudiantes" value="Estudiantes" aria-label="Text input with checkbox"disabled/>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -208,14 +299,14 @@ class AddEvent extends Component{
                                     <span className="focus-input100"></span>
                                 </div>
 
-                                <div class="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Banner es requerido">
+                                <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Banner es requerido">
                                     <span className="label-input100">Encabezado</span>
                                     <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
                                     <input className="input100" type="file" name="banner" required/>
                                     <span className="focus-input100"></span>
                                 </div>
 
-                                <div class="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Imagen es requerido">
+                                <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Imagen es requerido">
                                     <span className="label-input100">Imagen Destacada</span>
                                     <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
                                     <input className="input100" type="file" name="image" required/>

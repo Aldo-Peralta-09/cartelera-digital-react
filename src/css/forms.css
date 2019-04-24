@@ -439,3 +439,21 @@ input.input100 {
     opacity: 1;
   }
 }
+
+.remove{
+  height: 60px;
+  width: 60px;
+  min-width: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border:0px;
+  background-color: transparent;
+}
+
+.remove i{
+  color: #979797;
+  font-size: 24px;
+}

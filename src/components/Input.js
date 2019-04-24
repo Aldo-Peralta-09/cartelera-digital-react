@@ -1,15 +1,26 @@
 import React, {Component} from 'react';
 
-class Input extends Component{
+class Schedule extends Component{
+
+    _remove(){
+        if(this.props.onRemove)
+            this.props.onRemove();
+    }
+
     render(){
         return(
-            <div className="wrap-input100 validate-input m-b-26" data-validate="Titulo es requerido">
-				<span className="label-input100">¿A que evento pertenece?</span>
-				<input className="input100" type="text" name="event"/>
+            <div className="wrap-input100 m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}}>
+				<span className="label-input100">{this.props.data.title}</span>
+                <div className="input-group mb-3">
+                    <input type="time" name={this.props.data.name} className="form-control input100" aria-describedby="button-addon2"/>
+                    <div className="input-group-append">
+                        <button className="btn btn-danger" style={{color:"#fff"}} type="button" id="button-addon2" onClick={this._remove.bind(this)}>Close</button>
+                    </div>
+                </div>
 				<span className="focus-input100"></span>
 			</div>
         );
     }
 }
 
-export default Input;
+export default Schedule;
