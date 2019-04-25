@@ -219,8 +219,14 @@ class AddEvent extends Component{
 
                                 <div className="wrap-input100 m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="URL es requerido">
                                     <span className="label-input100">URL del evento</span>
-                                    <input className="input100" type="url" name="url"/>
-                                    <span className="focus-input100"></span>
+                                    <div className="input-group mb-3">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text">www.</span>
+                                        </div>
+                                        <input type="url" name="url" className="form-control" aria-label="Dollar amount (with dot and two decimal places)"/>
+                                    </div>
+                                    {/* <input className="input100" type="url" name="url"/>
+                                    <span className="focus-input100"></span> */}
                                 </div>
 
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Entrada es requerido">
@@ -237,8 +243,14 @@ class AddEvent extends Component{
 
                                 <div className="wrap-input100 m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="URL es requerido">
                                     <span className="label-input100">Precio</span>
-                                    <input className="input100" type="number" name="price"/>
-                                    <span className="focus-input100"></span>
+                                    <div className="input-group mb-3">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text">$</span>
+                                        </div>
+                                        <input type="number" name="price" className="form-control" aria-label="Dollar amount (with dot and two decimal places)"/>
+                                    </div>
+                                    {/* <input className="input100" type="number" name="price"/>
+                                    <span className="focus-input100"></span> */}
                                 </div>
 
                                 <div className="flex-sb-m w-full p-b-30 validate-input" style={{paddingTop:"15px"}} data-validate="Descuentos es requerido">
@@ -301,16 +313,30 @@ class AddEvent extends Component{
 
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Banner es requerido">
                                     <span className="label-input100">Encabezado</span>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
+                                    <div className="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
+                                            <input type="file" className="custom-file-input" name="banner" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
+                                            <label className="custom-file-label" for="inputGroupFile01">Selecciona un archivo</label>
+                                        </div>
+                                    </div>
+                                    {/* <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
                                     <input className="input100" type="file" name="banner" required/>
-                                    <span className="focus-input100"></span>
+                                    <span className="focus-input100"></span> */}
                                 </div>
 
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Imagen es requerido">
                                     <span className="label-input100">Imagen Destacada</span>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                                    <div className="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
+                                            <input type="file" className="custom-file-input" name="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
+                                            <label className="custom-file-label" for="inputGroupFile01">Selecciona un archivo</label>
+                                        </div>
+                                    </div>
+                                    {/* <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
                                     <input className="input100" type="file" name="image" required/>
-                                    <span className="focus-input100"></span>
+                                    <span className="focus-input100"></span> */}
                                 </div>
 
                                 <div className="container-login100-form-btn">
