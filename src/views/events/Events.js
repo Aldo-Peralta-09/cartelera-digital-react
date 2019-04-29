@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import '../../css/style.css';
-import {GET_EVENTS_ACTION} from '../../redux/actions/ActionType';
+import {GET_EVENTS_ACTION, DELETE_EVENT_ACTION} from '../../redux/actions/ActionType';
 import { connect } from 'react-redux';
 
 class Events extends Component{
 
     componentDidMount(){
         this.props.getEvents();
+    }
+
+    componentWillReceiveProps(nextProps){
+        const ActualProps = this.props;
+        const NewProps = nextProps;
+
+        if(ActualProps.responseDeleteEvent.status === "Pending" && NewProps.responseDeleteEvent.status === "OK"){
+            this.props.getEvents();
+        }
     }
 
     render(){
@@ -35,6 +44,7 @@ class Events extends Component{
         return this.props.stateEvents.map((evento) => {
             if(evento){
                 const BASE_URL = 'https://cartelera-digital.herokuapp.com';
+                const id = evento._id;
                 return(
                     <div className="col col-lg-4">
                         <div className="block-blog text-left" style={{paddingBottom:"15px"}}>
@@ -45,7 +55,10 @@ class Events extends Component{
                                 <p>{evento.place}</p>
                                 <div className="btn-group" role="group" aria-label="Basic example">
                                     <button type="button" className="btn btn-info">Editar</button>
-                                    <button type="button" className="btn btn-danger">Eliminar</button>
+                                    <button 
+                                        type="button" 
+                                        onClick={this.props.deleteEvent.bind(this,id)} 
+                                        className="btn btn-danger">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -56,16 +69,18 @@ class Events extends Component{
     }
 }
 
-const mapStateToProps = ({stateEvents}) => {
+const mapStateToProps = ({stateEvents,responseDeleteEvent}) => {
     return {
-        stateEvents: stateEvents
+        stateEvents: stateEvents,
+        responseDeleteEvent: responseDeleteEvent
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getEvents: () => dispatch(GET_EVENTS_ACTION())
-    };
+        getEvents: () => dispatch(GET_EVENTS_ACTION()),
+        deleteEvent: (id) => dispatch(DELETE_EVENT_ACTION(id))
+    }; 
 };
 
 const ConnectUsers = connect(mapStateToProps,mapDispatchToProps)(Events);

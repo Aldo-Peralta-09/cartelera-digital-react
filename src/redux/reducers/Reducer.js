@@ -16,4 +16,13 @@ const GET_EVENTS_REDUCER = (state = [], action) => {
     }
 };
 
-export {GET_USERS_REDUCER,GET_EVENTS_REDUCER};
+const DELETE_EVENT_REDUCER = (state = {}, action) => {
+    switch(action.type){
+        case "DELETE_EVENT_PENDING": return { status: "Pending" };
+		case "DELETE_EVENT_FULFILLED": return action.payload.data.status;
+		case "DELETE_EVENT_REJECTED": return { status: "Error" };
+		default: return state;
+    }
+};
+
+export {GET_USERS_REDUCER,GET_EVENTS_REDUCER,DELETE_EVENT_REDUCER};

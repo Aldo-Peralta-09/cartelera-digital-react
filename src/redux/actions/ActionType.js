@@ -16,4 +16,11 @@ const GET_EVENTS_ACTION = () => {
     };
 }
 
-export {GET_USERS_ACTION,GET_EVENTS_ACTION};
+const DELETE_EVENT_ACTION = (id) => {
+    return {
+        type: "DELETE_EVENT",
+        payload: axios.delete(BASE_URL + '/events/delete/?id=' + id)
+    };
+}
+
+export {GET_USERS_ACTION,GET_EVENTS_ACTION,DELETE_EVENT_ACTION};
