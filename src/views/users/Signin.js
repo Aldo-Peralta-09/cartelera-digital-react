@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../css/forms.css';
-import '../../js/validation';
 
 class Signin extends Component{
     render(){

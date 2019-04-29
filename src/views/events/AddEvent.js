@@ -314,10 +314,10 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Banner es requerido">
                                     <span className="label-input100">Encabezado</span>
                                     <div className="input-group mb-3">
-                                        <div class="custom-file">
+                                        <div className="custom-file">
                                             <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
                                             <input type="file" className="custom-file-input" name="banner" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
-                                            <label className="custom-file-label" for="inputGroupFile01">Selecciona un archivo</label>
+                                            <label className="custom-file-label" htmlFor="inputGroupFile01">Selecciona un archivo</label>
                                         </div>
                                     </div>
                                     {/* <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
@@ -328,10 +328,10 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Imagen es requerido">
                                     <span className="label-input100">Imagen Destacada</span>
                                     <div className="input-group mb-3">
-                                        <div class="custom-file">
+                                        <div className="custom-file">
                                             <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
                                             <input type="file" className="custom-file-input" name="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
-                                            <label className="custom-file-label" for="inputGroupFile01">Selecciona un archivo</label>
+                                            <label className="custom-file-label" htmlFor="inputGroupFile01">Selecciona un archivo</label>
                                         </div>
                                     </div>
                                     {/* <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>

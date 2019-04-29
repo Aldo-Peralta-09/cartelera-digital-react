@@ -9,6 +9,18 @@ const GET_USERS_ACTION = () => {
     };
 }
 
+const NEW_USER_ACTION = (name,email,dependency,password) => {
+    return {
+        type: "NEW_USER",
+        payload: axios.post(BASE_URL + '/users/signup', {
+            name: name,
+            email: email,
+            dependency: dependency,
+            password: password
+        })
+    }
+}
+
 const GET_EVENTS_ACTION = () => {
     return {
         type: "GET_EVENTS",
@@ -23,4 +35,4 @@ const DELETE_EVENT_ACTION = (id) => {
     };
 }
 
-export {GET_USERS_ACTION,GET_EVENTS_ACTION,DELETE_EVENT_ACTION};
+export {GET_USERS_ACTION,NEW_USER_ACTION,GET_EVENTS_ACTION,DELETE_EVENT_ACTION};

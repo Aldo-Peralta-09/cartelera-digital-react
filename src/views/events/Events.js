@@ -65,6 +65,7 @@ class Events extends Component{
                     </div>
                 );
             }
+            return null;
         })
     }
 }

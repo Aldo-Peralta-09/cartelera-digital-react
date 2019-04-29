@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
+import { NEW_USER_ACTION } from '../../redux/actions/ActionType';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Signup extends Component{
 
     _getData(){
-        const data = {
-            name: this.refs.name.value,
-            email: this.refs.email.value,
-            dependency: this.refs.dependency.value,
-            password: this.refs.password.value
-        }
-
-        console.log(data);
+        const name = this.refs.name.value;
+        const email = this.refs.email.value;
+        const dependency = this.refs.dependency.value;
+        const password = this.refs.password.value;  
+        this.props.sendUser(name,email,dependency,password);
     }
 
     render(){
@@ -44,7 +44,7 @@ class Signup extends Component{
                                     <span className="label-input100">Dependencia</span>
                                     <div className="input-group mb-3">
                                         <div className="input-group-prepend">
-                                            <label className="input-group-text" for="inputGroupSelect01">Áreas</label>
+                                            <label className="input-group-text" htmlFor="inputGroupSelect01">Áreas</label>
                                         </div>
                                         <select className="custom-select input100" ref="dependency" required id="inputGroupSelect01">
                                             <option defaultValue>Seleccione un área</option>
@@ -69,9 +69,9 @@ class Signup extends Component{
                                 </div>
 
                                 <div className="container-login100-form-btn">
-                                    <input className="login100-form-btn" defaultValue="Registrar" onClick={this._getData.bind(this)} type="button">
-                                        
-                                    </input>
+                                    <Link to="/users" className="login100-form-btn" onClick={this._getData.bind(this)}>
+                                        Registrar
+                                    </Link>
                                 </div>
                             </form> 
                         </div>
@@ -82,4 +82,18 @@ class Signup extends Component{
     }
 }
 
-export default Signup;
+const mapStateToProps = ({responseNewUser}) => {
+    return {
+        responseNewUser: responseNewUser
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        sendUser: (name,email,dependency,password) => dispatch(NEW_USER_ACTION(name,email,dependency,password))
+    };
+};
+
+const ConnectSignup = connect(mapStateToProps,mapDispatchToProps)(Signup);
+
+export default ConnectSignup;
