@@ -20,7 +20,6 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
           <Header/>
           <Switch>
             <Route exact path="/" component={Signin}/>
@@ -30,7 +29,6 @@ class App extends Component {
             <Route path="/add-event" component={AddEvent}/>
           </Switch>
           <Footer/>
-        </div>
       </Router>
     );
   }

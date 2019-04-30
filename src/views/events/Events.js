@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import '../../css/style.css';
 import {GET_EVENTS_ACTION, DELETE_EVENT_ACTION} from '../../redux/actions/ActionType';
 import { connect } from 'react-redux';
+import EventCard from '../../components/EventCard';
 
 class Events extends Component{
 
@@ -41,28 +42,11 @@ class Events extends Component{
     }
 
     _renderEvents = () => {
-        return this.props.stateEvents.map((evento) => {
+        return this.props.stateEvents.map((evento,index) => {
             if(evento){
                 const BASE_URL = 'https://cartelera-digital.herokuapp.com';
-                const id = evento._id;
                 return(
-                    <div className="col col-lg-4">
-                        <div className="block-blog text-left" style={{paddingBottom:"15px"}}>
-                            <img src={BASE_URL + evento.image} alt="event img"/>
-                            <div className="content-blog text-center">
-                                <h4>{evento.title}</h4>
-                                <p>{evento.start}</p>
-                                <p>{evento.place}</p>
-                                <div className="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" className="btn btn-info">Editar</button>
-                                    <button 
-                                        type="button" 
-                                        onClick={this.props.deleteEvent.bind(this,id)} 
-                                        className="btn btn-danger">Eliminar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <EventCard evento={evento} url={BASE_URL} key={index}/> 
                 );
             }
             return null;
