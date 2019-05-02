@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import '../../css/style.css';
-import {GET_EVENTS_ACTION, DELETE_EVENT_ACTION} from '../../redux/actions/ActionType';
+import {GET_EVENTS_ACTION, DELETE_EVENT_ACTION} from '../../redux/actions/events/ActionType';
 import { connect } from 'react-redux';
 import EventCard from '../../components/EventCard';
 
@@ -44,7 +44,7 @@ class Events extends Component{
     _renderEvents = () => {
         return this.props.stateEvents.map((evento,index) => {
             if(evento){
-                const BASE_URL = 'https://cartelera-digital.herokuapp.com';
+                const BASE_URL = 'http://localhost:3000';
                 return(
                     <EventCard evento={evento} url={BASE_URL} key={index}/> 
                 );

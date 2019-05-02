@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { DELETE_EVENT_ACTION, GET_EVENTS_ACTION } from '../redux/actions/ActionType';
+import { DELETE_EVENT_ACTION, GET_EVENTS_ACTION } from '../redux/actions/events/ActionType';
 
 class EventCard extends Component{
 

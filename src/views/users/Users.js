@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import '../../css/style.css';
-import { GET_USERS_ACTION } from '../../redux/actions/ActionType';
+import { GET_USERS_ACTION } from '../../redux/actions/users/ActionType';
 import { connect } from 'react-redux';
 import UserCard from '../../components/UserCard';
 

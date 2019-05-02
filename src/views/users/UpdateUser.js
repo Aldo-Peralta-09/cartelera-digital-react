@@ -1,15 +1,21 @@
 import React, {Component} from 'react';
-import { NEW_USER_ACTION } from '../../redux/actions/users/ActionType';
+import { UPDATE_USER_ACTION, GET_USER_ACTION } from '../../redux/actions/users/ActionType';
 import { connect } from 'react-redux';
 
-class Signup extends Component{
+class UpdateUser extends Component{
+
+    componentWillMount(){
+        const {id} = this.props.match.params;
+        console.log(id);
+        this.props.getUser(id);
+    }
 
     _getData(){
         const name = this.refs.name.value;
         const email = this.refs.email.value;
         const dependency = this.refs.dependency.value;
         const password = this.refs.password.value;
-        this.props.sendUser(name,email,dependency,password);
+        this.props.updateUser(name,email,dependency,password);
     }
 
     render(){
@@ -19,23 +25,23 @@ class Signup extends Component{
                     <div className="container-login100">
                         <div className="wrap-login100">
                             <div className="login100-form-title" style={{backgroundImage:"url(" + require('../../images/culture.jpg') + ")"}}>
-                                <span className="login100-form-title-1">Registrate</span>
+                                <span className="login100-form-title-1">Actualizar</span>
                             </div>
 
                             <div className="text-center" style={{paddingTop:"15px"}}>
                                 <img src={require('../../images/cartelera.png')} className="rounded" alt="Cartelera Logo"/>
                             </div>
 
-                            <form className="login100-form validate-form">
+                            <div className="login100-form validate-form">
                                 <div className="wrap-input100 validate-input m-b-26" data-validate="Correo electrónico es requerido">
                                     <span className="label-input100">Nombre</span>
-                                    <input className="input100" type="text" ref="name" required/>
+                                    <input className="input100" type="text" ref="name" defaultValue={this.props.stateUser.name} required/>
                                     <span className="focus-input100"></span>
                                 </div>
 
                                 <div className="wrap-input100 validate-input m-b-26" data-validate="Correo electrónico es requerido">
                                     <span className="label-input100">Email</span>
-                                    <input className="input100" type="email" ref="email" required/>
+                                    <input className="input100" type="email" ref="email" defaultValue={this.props.stateUser.email} required/>
                                     <span className="focus-input100"></span>
                                 </div>
 
@@ -46,7 +52,7 @@ class Signup extends Component{
                                             <label className="input-group-text" htmlFor="inputGroupSelect01">Áreas</label>
                                         </div>
                                         <select className="custom-select input100" ref="dependency" required id="inputGroupSelect01">
-                                            <option defaultValue>Seleccione un área</option>
+                                            <option defaultValue={this.props.stateUser.dependency}> {this.props.stateUser.dependency}</option>
                                             <option defaultValue="Despacho del Secretario">Despacho del Secretario</option>
                                             <option defaultValue="Innovación y Emprendimiento Cultural">Innovación y Emprendimiento Cultural</option>
                                             <option defaultValue="Patrimonio Cultural">Patrimonio Cultural</option>
@@ -63,17 +69,17 @@ class Signup extends Component{
                                 </div>
 
                                 <div className="wrap-input100 validate-input m-b-18" data-validate = "La contraseña es requerida">
-                                    <span className="label-input100">Contraseña</span>
+                                    <span className="label-input100">Nueva Contraseña</span>
                                     <input className="input100" type="password" ref="password" required minLength="8"/>
                                     <span className="focus-input100"></span>
                                 </div>
 
                                 <div className="container-login100-form-btn">
                                     <button className="login100-form-btn" onClick={this._getData.bind(this)}>
-                                        Registrar
+                                        Actualizar Datos
                                     </button>
                                 </div>
-                            </form> 
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -82,18 +88,20 @@ class Signup extends Component{
     }
 }
 
-const mapStateToProps = ({responseNewUser}) => {
+const mapStateToProps = ({stateUser,responseUpdateUser}) => {
     return {
-        responseNewUser: responseNewUser
+        stateUser: stateUser,
+        responseUpdateUser: responseUpdateUser
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendUser: (name,email,dependency,password) => dispatch(NEW_USER_ACTION(name,email,dependency,password))
+        getUser: (id) => dispatch(GET_USER_ACTION(id)),
+        updateUser: (name,email,dependency,password) => dispatch(UPDATE_USER_ACTION(name,email,dependency,password))
     };
 };
 
-const ConnectSignup = connect(mapStateToProps,mapDispatchToProps)(Signup);
+const ConnectUpdateUser = connect(mapStateToProps,mapDispatchToProps)(UpdateUser);
 
-export default ConnectSignup;
+export default ConnectUpdateUser;

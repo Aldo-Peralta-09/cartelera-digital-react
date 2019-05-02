@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { DELETE_USER_ACTION, GET_USERS_ACTION } from '../redux/actions/ActionType';
+import { DELETE_USER_ACTION, GET_USERS_ACTION } from '../redux/actions/users/ActionType';
+import { Link } from 'react-router-dom';
 
 class UserCard extends Component{
 
@@ -14,6 +15,7 @@ class UserCard extends Component{
     }
 
     render(){
+        const id = "/user/edit/" + this.props.user._id;
         return(
             <div className="col-12 col-md-6 col-lg-3">
                 <div className="block-blog text-left">
@@ -23,7 +25,12 @@ class UserCard extends Component{
                         <p>{this.props.user.email}</p>
                         <p>{this.props.user.dependency}</p>
                         <div className="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" className="btn btn-info">Editar</button>
+                            <Link
+                                className="btn btn-info"
+                                to={id}
+                                params={{
+                                    id: this.props.user._id
+                                }}>Editar</Link>
                             <button type="button" onClick={this.props.deleteDato.bind(this,this.props.user._id)} className="btn btn-danger">Eliminar</button>
                         </div>
                     </div>
