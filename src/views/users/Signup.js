@@ -5,11 +5,16 @@ import { Link } from 'react-router-dom';
 
 class Signup extends Component{
 
+    componentWillReceiveProps(nextProps){
+        const ActualProps = this.props;
+        const NewProps = nextProps;
+    }
+
     _getData(){
         const name = this.refs.name.value;
         const email = this.refs.email.value;
         const dependency = this.refs.dependency.value;
-        const password = this.refs.password.value;  
+        const password = this.refs.password.value;
         this.props.sendUser(name,email,dependency,password);
     }
 
@@ -69,9 +74,9 @@ class Signup extends Component{
                                 </div>
 
                                 <div className="container-login100-form-btn">
-                                    <Link to="/users" className="login100-form-btn" onClick={this._getData.bind(this)}>
+                                    <button className="login100-form-btn" onClick={this._getData.bind(this)}>
                                         Registrar
-                                    </Link>
+                                    </button>
                                 </div>
                             </form> 
                         </div>

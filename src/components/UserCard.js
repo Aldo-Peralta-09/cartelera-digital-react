@@ -1,6 +1,18 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { DELETE_USER_ACTION, GET_USERS_ACTION } from '../redux/actions/ActionType';
 
 class UserCard extends Component{
+
+    componentWillReceiveProps(nextProps){
+        const ActualProps = this.props;
+        const NewProps = nextProps;
+
+        if(ActualProps.responseDeleteUser.status === "Pending" && NewProps.responseDeleteUser.status === "OK"){
+            this.props.getUsers();
+        }
+    }
+
     render(){
         return(
             <div className="col-12 col-md-6 col-lg-3">
@@ -12,7 +24,7 @@ class UserCard extends Component{
                         <p>{this.props.user.dependency}</p>
                         <div className="btn-group" role="group" aria-label="Basic example">
                             <button type="button" className="btn btn-info">Editar</button>
-                            <button type="button" className="btn btn-danger">Eliminar</button>
+                            <button type="button" onClick={this.props.deleteDato.bind(this,this.props.user._id)} className="btn btn-danger">Eliminar</button>
                         </div>
                     </div>
                 </div>
@@ -21,4 +33,19 @@ class UserCard extends Component{
     }
 }
 
-export default UserCard;
+const mapStateToProps = ({responseDeleteUser}) => {
+    return{
+        responseDeleteUser: responseDeleteUser
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getUsers: () => dispatch(GET_USERS_ACTION()),
+        deleteDato: (id) => dispatch(DELETE_USER_ACTION(id))
+    };
+}
+
+const UserCardConnect = connect(mapStateToProps,mapDispatchToProps)(UserCard);
+
+export default UserCardConnect;
