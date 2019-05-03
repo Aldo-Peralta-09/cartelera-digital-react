@@ -18,18 +18,18 @@ const GET_USER_REDUCER = (state = [], action) => {
 
 const NEW_USER_REDUCER = (state = {}, action) => {
     switch(action.type){
-        case "NEW_USER_PENDING": return state;
+        case "NEW_USER_PENDING": return { status: "Pending" };
 		case "NEW_USER_FULFILLED": return action.payload.data;
-		case "NEW_USER_REJECTED": return state;
+		case "NEW_USER_REJECTED": return { status: "Error" };
 		default: return state;
     }
 };
 
 const UPDATE_USER_REDUCER = (state = {}, action) => {
     switch(action.type){
-        case "NEW_USER_PENDING": return state;
-		case "NEW_USER_FULFILLED": return action.payload.data;
-		case "NEW_USER_REJECTED": return state;
+        case "UPDATE_USER_PENDING": return { status: "Pending" };
+		case "UPDATE_USER_FULFILLED": return action.payload.data;
+		case "UPDATE_USER_REJECTED": return { status: "Error" };
 		default: return state;
     }
 };

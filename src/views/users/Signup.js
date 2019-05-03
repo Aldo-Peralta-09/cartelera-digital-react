@@ -1,15 +1,44 @@
 import React, {Component} from 'react';
 import { NEW_USER_ACTION } from '../../redux/actions/users/ActionType';
 import { connect } from 'react-redux';
+import Alert from '../../components/Alert';
+import AlertSuccess from '../../components/AlertSucces';
 
 class Signup extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            errors: [],
+            success: []
+        }
+    }
 
     componentWillReceiveProps(nextProps){
-        const ActualProps = this.props;
+        //const ActualProps = this.props;
         const NewProps = nextProps;
 
-        if(ActualProps.responseNewUser.status === "Pending" && NewProps.responseNewUser.status === "OK"){
-            this.context.router.push("/users")
+        if(NewProps.responseNewUser.status === "Error"){
+            let newErrors = [];
+            NewProps.responseNewUser.errors.map((item) => {
+                newErrors.push(item);
+            })
+            this.setState({
+                errors: newErrors
+            })
+        }
+
+        if(NewProps.responseNewUser.status === "OK"){
+            this.refs.name.value = "";
+            this.refs.email.value = "";
+            this.refs.dependency.value = "";
+            this.refs.password.value = "";
+            let newSuccess = [];
+            NewProps.responseNewUser.ok.map((item) => {
+                newSuccess.push(item);
+            })
+            this.setState({
+                success: newSuccess
+            })
         }
     }
 
@@ -34,6 +63,14 @@ class Signup extends Component{
                             <div className="text-center" style={{paddingTop:"15px"}}>
                                 <img src={require('../../images/cartelera.png')} className="rounded" alt="Cartelera Logo"/>
                             </div>
+
+                            {this.state.errors.map((item,index) => {
+                                return <Alert item={item} key={index}/>
+                            })}
+
+                            {this.state.success.map((item,index) => {
+                                return <AlertSuccess item={item} key={index}/>
+                            })}
 
                             <div className="login100-form validate-form">
                                 <div className="wrap-input100 validate-input m-b-26" data-validate="Correo electrónico es requerido">

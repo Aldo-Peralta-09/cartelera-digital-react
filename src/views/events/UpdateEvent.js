@@ -10,7 +10,7 @@ class AddEvent extends Component{
         this.state = {
             schedules : [{
                 title: "Horario ",
-                name: "hour"
+                name: "hour[]"
             }],
             lenght: 1,
             show: false
@@ -64,7 +64,7 @@ class AddEvent extends Component{
             ...schedules,
             {
                 title: "Horario " + lenght,
-                name: "hour[]"
+                name: "hour"
             }
         ]
 
@@ -78,30 +78,15 @@ class AddEvent extends Component{
         const title = this.refs.title.value;
         const description = this.refs.description.value;
         const discipline = this.refs.discipline.value;
-        let disciplineAll = [];
-        DISCIPLINES.map((ds) => {
-            if(ds.name === discipline){
-                disciplineAll.push(ds);
-            }
-        })
         const category = this.refs.category.value;
         const type = this.refs.type.value;
         const hierarchy = this.refs.hierarchy.value;
-        let mainEvent = null;
-        if(this.refs.evento){
-            mainEvent = this.refs.evento.value;
-        }
+        //const evento = this.refs.evento.value || null;
         const start = this.refs.start.value;
         const finish = this.refs.finish.value;
-        //let hour = this.refs.hour.value;
+        //const dates = this.refs.hour.value;
         const municipality = this.refs.municipality.value;
         const place = this.refs.place.value;
-        let placeAll = [];
-        PLACES.map((pl) => {
-            if(pl.name === place){
-                placeAll.push(pl);
-            }
-        })
         const organizer = this.refs.organizer.value;
         const speaker = this.refs.speaker.value;
         const url = this.refs.url.value;
@@ -115,18 +100,18 @@ class AddEvent extends Component{
         const image = this.refs.image.value;
 
         console.log(
-            {title,
+            title,
             description,
-            disciplineAll,
+            discipline,
             category,
             type,
             hierarchy,
-            mainEvent,
+            //evento,
             start,
             finish,
-            //hour,
+            //dates,
             municipality,
-            placeAll,
+            place,
             organizer,
             speaker,
             url,
@@ -137,7 +122,7 @@ class AddEvent extends Component{
             especificPublic,
             gender,
             banner,
-            image}
+            image
         );
         
     }
@@ -175,7 +160,7 @@ class AddEvent extends Component{
                                     <span className="label-input100">Disciplina</span>
                                     <select className="input100" style={{height:"45px"}} ref="discipline">
                                         {DISCIPLINES.map((discipline,index) => {
-                                            return <option defaultValue={discipline.name} key={index}>{discipline.name}</option>;
+                                            return <option value={discipline.name} key={index}>{discipline.name}</option>;
                                         })}
                                     </select>
                                     <span className="focus-input100"></span>
@@ -185,7 +170,7 @@ class AddEvent extends Component{
                                     <span className="label-input100">Categoria</span>
                                     <select className="input100" style={{height:"45px"}} ref="category">
                                         {CATEGORIES.map((category,index) => {
-                                            return <option defaultValue={category.name} key={index}>{category.name}</option>;
+                                            return <option value={category.name} key={index}>{category.name}</option>;
                                         })}
                                     </select>
                                     <span className="focus-input100"></span>
@@ -194,10 +179,10 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Tipo de Evento es requerido">
                                     <span className="label-input100">Tipo de Evento</span>
                                     <select className="input100" style={{height:"45px"}} ref="type" required>
-                                        <option defaultValue="Eventos">Eventos</option>
-                                        <option defaultValue="Exposiciones Temporales">Exposiciones Temporales</option>
-                                        <option defaultValue="Actividades Permanentes">Actividades Permanentes</option>
-                                        <option defaultValue="Convocatoria">Convocatoria</option>
+                                        <option value="Eventos">Eventos</option>
+                                        <option value="Exposiciones Temporales">Exposiciones Temporales</option>
+                                        <option value="Actividades Permanentes">Actividades Permanentes</option>
+                                        <option value="Convocatoria">Convocatoria</option>
                                     </select>
                                     <span className="focus-input100"></span>
                                 </div>
@@ -208,7 +193,7 @@ class AddEvent extends Component{
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">
-                                                    <input type="radio" id="ckb1" onChange={() => {this._hideComponent(this.state.show)}} ref="hierarchy" defaultValue="Evento" aria-label="Checkbox for following text input"/>
+                                                    <input type="radio" id="ckb1" onChange={() => {this._hideComponent(this.state.show)}} ref="hierarchy" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
                                             <input type="text" className="form-control" placeholder="Evento" aria-label="Text input with checkbox" disabled/>
@@ -216,7 +201,7 @@ class AddEvent extends Component{
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">
-                                                    <input type="radio" id="ckb2" onChange={() => {this._showComponent(this.state.show)}} ref="hierarchy" defaultValue="Sub-Evento" aria-label="Checkbox for following text input"/>
+                                                    <input type="radio" id="ckb2" onChange={() => {this._showComponent(this.state.show)}} ref="hierarchy" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
                                             <input type="text" className="form-control" placeholder="Sub-Evento" aria-label="Text input with checkbox"disabled/>
@@ -254,7 +239,7 @@ class AddEvent extends Component{
                                     <span className="label-input100">Municipio</span>
                                     <select className="input100" style={{height:"45px"}} ref="municipality" required>
                                         {MUNICIPALITIES.map((municipality,index) => {
-                                            return <option defaultValue={municipality.name} key={index}>{municipality.name}</option>;
+                                            return <option value={municipality.name} key={index}>{municipality.name}</option>;
                                         })}
                                     </select>
                                     <span className="focus-input100"></span>
@@ -264,7 +249,7 @@ class AddEvent extends Component{
                                     <span className="label-input100">Lugar</span>
                                     <select className="input100" style={{height:"45px"}} ref="place" required>
                                         {PLACES.map((place,index) => {
-                                            return <option defaultValue={place.name} key={index}>{place.name}</option>;
+                                            return <option value={place.name} key={index}>{place.name}</option>;
                                         })}
                                     </select>
                                     <span className="focus-input100"></span>
@@ -273,8 +258,8 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Tipo de Evento es requerido">
                                     <span className="label-input100">Organiza</span>
                                     <select className="input100" style={{height:"45px"}} ref="organizer">
-                                        <option defaultValue="Secretaria de Cultura">Secretaria de Cultura</option>
-                                        <option defaultValue="Organismo Independiente">Organismo Independiente</option>
+                                        <option value="Secretaria de Cultura">Secretaria de Cultura</option>
+                                        <option value="Organismo Independiente">Organismo Independiente</option>
                                     </select>
                                     <span className="focus-input100"></span>
                                 </div>
@@ -298,11 +283,11 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Entrada es requerido">
                                     <span className="label-input100">Entrada</span>
                                     <select className="input100" style={{height:"45px"}} ref="entry">
-                                        <option defaultValue="Gratuito">Gratuito</option>
-                                        <option defaultValue="Boleto de Cortesia">Boleto de Cortesia</option>
-                                        <option defaultValue="Cuota de Recuperacion">Cuota de Recuperación</option>
-                                        <option defaultValue="Inscripcion">Inscripción</option>
-                                        <option defaultValue="Bono">Bono</option>
+                                        <option value="Gratuito">Gratuito</option>
+                                        <option value="Boleto de Cortesia">Boleto de Cortesia</option>
+                                        <option value="Cuota de Recuperacion">Cuota de Recuperación</option>
+                                        <option value="Inscripcion">Inscripción</option>
+                                        <option value="Bono">Bono</option>
                                     </select>
                                     <span className="focus-input100"></span>
                                 </div>
@@ -326,7 +311,7 @@ class AddEvent extends Component{
                                                     <input type="checkbox" id="ckb10" ref="discount" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
-                                            <input type="text" className="form-control" placeholder="INAPAM" defaultValue="INAPAM" aria-label="Text input with checkbox" disabled/>
+                                            <input type="text" className="form-control" placeholder="INAPAM" value="INAPAM" aria-label="Text input with checkbox" disabled/>
                                         </div>
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
@@ -334,7 +319,7 @@ class AddEvent extends Component{
                                                     <input type="checkbox" id="ckb20" ref="discount" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
-                                            <input type="text" className="form-control" placeholder="Estudiantes" defaultValue="Estudiantes" aria-label="Text input with checkbox"disabled/>
+                                            <input type="text" className="form-control" placeholder="Estudiantes" value="Estudiantes" aria-label="Text input with checkbox"disabled/>
                                         </div>
                                     </div>
                                 </div>
@@ -342,11 +327,11 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Publico es requerido">
                                     <span className="label-input100">Público</span>
                                     <select className="input100" style={{height:"45px"}} ref="public">
-                                        <option defaultValue="General">General</option>
-                                        <option defaultValue="Niños">Niños</option>
-                                        <option defaultValue="Adolescentes">Adolescentes</option>
-                                        <option defaultValue="Jovenes">Jóvenes</option>
-                                        <option defaultValue="Adultos">Adultos</option>
+                                        <option value="General">General</option>
+                                        <option value="Niños">Niños</option>
+                                        <option value="Adolescentes">Adolescentes</option>
+                                        <option value="Jovenes">Jóvenes</option>
+                                        <option value="Adultos">Adultos</option>
                                     </select>
                                     <span className="focus-input100"></span>
                                 </div>
@@ -354,13 +339,13 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Publico es requerido">
                                     <span className="label-input100">Público Especifico</span>
                                     <select className="input100" style={{height:"45px"}} ref="especificPublic">
-                                        <option defaultValue="General">General</option>
-                                        <option defaultValue="Estudiantes Primaria">Estudiantes Primaria</option>
-                                        <option defaultValue="Estudiantes Secundaria">Estudiantes Secundaria</option>
-                                        <option defaultValue="Estudiantes Bachillerato">Estudiantes Bachillerato</option>
-                                        <option defaultValue="Discapacidad Visual">Discapacidad Visual</option>
-                                        <option defaultValue="Discapacidad Auditiva">Discapacidad Auditiva</option>
-                                        <option defaultValue="Discapacidad Motriz">Discapacidad Motriz</option>
+                                        <option value="General">General</option>
+                                        <option value="Estudiantes Primaria">Estudiantes Primaria</option>
+                                        <option value="Estudiantes Secundaria">Estudiantes Secundaria</option>
+                                        <option value="Estudiantes Bachillerato">Estudiantes Bachillerato</option>
+                                        <option value="Discapacidad Visual">Discapacidad Visual</option>
+                                        <option value="Discapacidad Auditiva">Discapacidad Auditiva</option>
+                                        <option value="Discapacidad Motriz">Discapacidad Motriz</option>
                                     </select>
                                     <span className="focus-input100"></span>
                                 </div>
@@ -368,9 +353,9 @@ class AddEvent extends Component{
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Genero es requerido">
                                     <span className="label-input100">Genero</span>
                                     <select className="input100" style={{height:"45px"}} ref="gender">
-                                        <option defaultValue="General">General</option>
-                                        <option defaultValue="Hombres">Hombres</option>
-                                        <option defaultValue="Mujeres">Mujeres</option>
+                                        <option value="General">General</option>
+                                        <option value="Hombres">Hombres</option>
+                                        <option value="Mujeres">Mujeres</option>
                                     </select>
                                     <span className="focus-input100"></span>
                                 </div>
@@ -379,7 +364,7 @@ class AddEvent extends Component{
                                     <span className="label-input100">Encabezado</span>
                                     <div className="input-group mb-3">
                                         <div className="custom-file">
-                                            <input type="hidden" name="MAX_FILE_SIZE" defaultValue="3000000"/>
+                                            <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
                                             <input type="file" className="custom-file-input" ref="banner" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
                                             <label className="custom-file-label" htmlFor="inputGroupFile01">Selecciona un archivo</label>
                                         </div>
@@ -390,7 +375,7 @@ class AddEvent extends Component{
                                     <span className="label-input100">Imagen Destacada</span>
                                     <div className="input-group mb-3">
                                         <div className="custom-file">
-                                            <input type="hidden" name="MAX_FILE_SIZE" defaultValue="3000000"/>
+                                            <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
                                             <input type="file" className="custom-file-input" ref="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
                                             <label className="custom-file-label" htmlFor="inputGroupFile01">Selecciona un archivo</label>
                                         </div>

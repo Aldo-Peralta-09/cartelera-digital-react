@@ -1,13 +1,51 @@
 import React, {Component} from 'react';
 import { UPDATE_USER_ACTION, GET_USER_ACTION } from '../../redux/actions/users/ActionType';
 import { connect } from 'react-redux';
+import Alert from '../../components/Alert';
+import AlertSuccess from '../../components/AlertSucces';
 
 class UpdateUser extends Component{
 
+    constructor(props){
+        super(props);
+        this.state = {
+            errors: [],
+            success: []
+        }
+    }
+
     componentWillMount(){
         const {id} = this.props.match.params;
-        console.log(id);
         this.props.getUser(id);
+    }
+
+    componentWillReceiveProps(nextProps){
+        //const ActualProps = this.props;
+        const NewProps = nextProps;
+
+        if(NewProps.responseUpdateUser.status === "Error"){
+            let newErrors = [];
+            NewProps.responseUpdateUser.errors.map((item) => {
+                newErrors.push(item);
+            })
+            this.setState({
+                errors: newErrors
+            })
+        }
+
+        if(NewProps.responseUpdateUser.status === "OK"){
+            this.refs.name.value = "";
+            this.refs.email.value = "";
+            this.refs.dependency.value = "";
+            this.refs.password.value = "";
+            let newSuccess = [];
+            NewProps.responseUpdateUser.ok.map((item) => {
+                newSuccess.push(item);
+            })
+            this.setState({
+                success: newSuccess
+            })
+        }
     }
 
     _getData(){
@@ -15,7 +53,8 @@ class UpdateUser extends Component{
         const email = this.refs.email.value;
         const dependency = this.refs.dependency.value;
         const password = this.refs.password.value;
-        this.props.updateUser(name,email,dependency,password);
+        const {id} = this.props.match.params;
+        this.props.updateUser(id,name,email,dependency,password);
     }
 
     render(){
@@ -31,6 +70,14 @@ class UpdateUser extends Component{
                             <div className="text-center" style={{paddingTop:"15px"}}>
                                 <img src={require('../../images/cartelera.png')} className="rounded" alt="Cartelera Logo"/>
                             </div>
+
+                            {this.state.errors.map((item,index) => {
+                                return <Alert item={item} key={index}/>
+                            })}
+
+                            {this.state.success.map((item,index) => {
+                                return <AlertSuccess item={item} key={index}/>
+                            })}
 
                             <div className="login100-form validate-form">
                                 <div className="wrap-input100 validate-input m-b-26" data-validate="Correo electrónico es requerido">
@@ -98,7 +145,7 @@ const mapStateToProps = ({stateUser,responseUpdateUser}) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getUser: (id) => dispatch(GET_USER_ACTION(id)),
-        updateUser: (name,email,dependency,password) => dispatch(UPDATE_USER_ACTION(name,email,dependency,password))
+        updateUser: (id,name,email,dependency,password) => dispatch(UPDATE_USER_ACTION(id,name,email,dependency,password))
     };
 };
 

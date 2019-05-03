@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-/* const BASE_URL = "https://cartelera-digital.herokuapp.com"; */
-
 const BASE_URL = "http://localhost:3000";
 
 const GET_USERS_ACTION = () => {
@@ -19,8 +17,6 @@ const GET_USER_ACTION = (id) => {
 }
 
 const NEW_USER_ACTION = (name,email,dependency,password) => {
-    console.log({name,email,dependency,password});
-    
     return {
         type: "NEW_USER",
         payload: axios({
@@ -46,7 +42,7 @@ const UPDATE_USER_ACTION = (id,name,email,dependency,password) => {
         type: "UPDATE_USER",
         payload: axios({
             method: 'put',
-            url: BASE_URL + '/users/edit-user/' + id,
+            url: BASE_URL + '/users/edit/' + id,
             data: {
                 name:name,
                 email:email,
