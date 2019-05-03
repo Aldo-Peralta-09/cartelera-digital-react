@@ -18,33 +18,46 @@ const GET_USER_ACTION = (id) => {
     };
 }
 
-const config = {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-}
-
 const NEW_USER_ACTION = (name,email,dependency,password) => {
+    console.log({name,email,dependency,password});
+    
     return {
         type: "NEW_USER",
-        payload: axios.post(
-            BASE_URL + '/users/signup', 
-            {
-                name,email,dependency,password
+        payload: axios({
+            method: 'post',
+            url: BASE_URL + '/users/signup',
+            data: {
+                name: name,
+                email: email,
+                dependency: dependency,
+                password: password
             },
-            config
-            )
+            config: {
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }
+        })
     }
 }
 
 const UPDATE_USER_ACTION = (id,name,email,dependency,password) => {
     return {
-        type: "NEW_USER",
-        payload: axios.put(BASE_URL + '/users/edit-user/' + id, {
-            name:name,
-            email:email,
-            dependency:dependency,
-            password:password
+        type: "UPDATE_USER",
+        payload: axios({
+            method: 'put',
+            url: BASE_URL + '/users/edit-user/' + id,
+            data: {
+                name:name,
+                email:email,
+                dependency:dependency,
+                password:password
+            },
+            config: {
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }
         })
     }
 }

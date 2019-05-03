@@ -36,9 +36,9 @@ const UPDATE_USER_REDUCER = (state = {}, action) => {
 
 const DELETE_USER_REDUCER = (state = {}, action) => {
     switch(action.type){
-        case "UPDATE_USER_PENDING": return { status: "Pending" };
-		case "UPDATE_USER_FULFILLED": return action.payload.data;
-		case "UPDATE_USER_REJECTED": return { status: "Error" };
+        case "DELETE_USER_PENDING": return { status: "Pending" };
+		case "DELETE_USER_FULFILLED": return action.payload.data;
+		case "DELETE_USER_REJECTED": return { status: "Error" };
 		default: return state;
     }
 };

@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 
 class Signup extends Component{
 
+    componentWillReceiveProps(nextProps){
+        const ActualProps = this.props;
+        const NewProps = nextProps;
+
+        if(ActualProps.responseNewUser.status === "Pending" && NewProps.responseNewUser.status === "OK"){
+            this.context.router.push("/users")
+        }
+    }
+
     _getData(){
         const name = this.refs.name.value;
         const email = this.refs.email.value;
@@ -26,7 +35,7 @@ class Signup extends Component{
                                 <img src={require('../../images/cartelera.png')} className="rounded" alt="Cartelera Logo"/>
                             </div>
 
-                            <form className="login100-form validate-form">
+                            <div className="login100-form validate-form">
                                 <div className="wrap-input100 validate-input m-b-26" data-validate="Correo electrónico es requerido">
                                     <span className="label-input100">Nombre</span>
                                     <input className="input100" type="text" ref="name" required/>
@@ -73,7 +82,7 @@ class Signup extends Component{
                                         Registrar
                                     </button>
                                 </div>
-                            </form> 
+                            </div> 
                         </div>
                     </div>
                 </div>
