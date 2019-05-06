@@ -43,7 +43,8 @@ class UpdateUser extends Component{
                 newSuccess.push(item);
             })
             this.setState({
-                success: newSuccess
+                success: newSuccess,
+                errors: []
             })
         }
     }

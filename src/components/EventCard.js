@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { DELETE_EVENT_ACTION, GET_EVENTS_ACTION } from '../redux/actions/events/ActionType';
+import { Link } from 'react-router-dom';
 
 class EventCard extends Component{
 
@@ -14,16 +15,23 @@ class EventCard extends Component{
     }
     
     render(){
+        const id = '/event/edit/' + this.props.evento._id;
         return(
             <div className="col col-lg-4">
                 <div className="block-blog text-left" style={{paddingBottom:"15px"}}>
-                    <img src={this.props.url + this.props.evento.image} alt="event img"/>
+                    <img src={'http://localhost:3000' + this.props.evento.image} alt="event img"/>
                     <div className="content-blog text-center">
                         <h4>{this.props.evento.title}</h4>
                         <p>{this.props.evento.start}</p>
-                        <p>{this.props.evento.place}</p>
+                        <p>{this.props.evento.place.name}</p>
                         <div className="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" className="btn btn-info">Editar</button>
+                            <Link 
+                                className="btn btn-info"
+                                to={id}
+                                params={{
+                                    id: this.props.evento._id
+                                }}
+                                >Editar</Link>
                             <button type="button" onClick={this.props.deleteEvent.bind(this,this.props.evento._id)} className="btn btn-danger">Eliminar</button>
                         </div>
                     </div>

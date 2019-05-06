@@ -16,66 +16,16 @@ const GET_EVENT_ACTION = (id) => {
     };
 }
 
-const NEW_EVENT_ACTION = (
-    title,
-    description,
-    discipline,
-    category,
-    type,
-    hierarchy,
-    evento,
-    start,
-    finish,
-    dates,
-    municipality,
-    place,
-    organizer,
-    speaker,
-    url,
-    entry,
-    price,
-    discount,
-    publico,
-    especificPublic,
-    gender,
-    banner,
-    image) => {
+const NEW_EVENT_ACTION = (datos) => {
     return {
         type: "NEW_EVENT",
-        payload: axios({
-            method: 'post',
-            url: BASE_URL + '/events/add',
-            data: {
-                title:title,
-                description:description,
-                discipline:discipline,
-                category:category,
-                type:type,
-                hierarchy:hierarchy,
-                evento:evento,
-                start:start,
-                finish:finish,
-                dates:dates,
-                municipality:municipality,
-                place:place,
-                organizer:organizer,
-                speaker:speaker,
-                url:url,
-                entry:entry,
-                price:price,
-                discount:discount,
-                publico:publico,
-                especificPublic:especificPublic,
-                gender:gender,
-                banner:banner,
-                image:image
-            },
-            config: {
+        payload: axios.post(BASE_URL + '/events/add',datos,{
                 headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
+                    'accept': 'application/json',
+                    'Content-Type': `multipart/form-data; boundary=${datos._boundary}`,
                 }
             }
-        })
+        )
     }
 }
 

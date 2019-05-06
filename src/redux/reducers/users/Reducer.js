@@ -43,4 +43,22 @@ const DELETE_USER_REDUCER = (state = {}, action) => {
     }
 };
 
-export {GET_USERS_REDUCER,GET_USER_REDUCER,NEW_USER_REDUCER,UPDATE_USER_REDUCER,DELETE_USER_REDUCER};
+const LOGIN_REDUCER = (state = {}, action) => {
+    switch(action.type){
+        case "LOGIN_PENDING": return { status: "Pending" };
+		case "LOGIN_FULFILLED": return action.payload.data;
+		case "LOGIN_REJECTED": return { status: "Error" };
+		default: return state;
+    }
+};
+
+const LOGOUT_REDUCER = (state = {}, action) => {
+    switch(action.type){
+        case "LOGOUT_PENDING": return { status: "Pending" };
+		case "LOGOUT_FULFILLED": return action.payload.data;
+		case "LOGOUT_REJECTED": return { status: "Error" };
+		default: return state;
+    }
+};
+
+export {GET_USERS_REDUCER,GET_USER_REDUCER,NEW_USER_REDUCER,UPDATE_USER_REDUCER,DELETE_USER_REDUCER,LOGOUT_REDUCER,LOGIN_REDUCER};

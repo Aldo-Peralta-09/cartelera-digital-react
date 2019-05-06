@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {DISCIPLINES,CATEGORIES, MUNICIPALITIES, PLACES} from '../../data/data';
 import Schedule from '../../components/Input';
 import MainEvent from '../../components/MainEvent';
+import {GET_EVENT_ACTION} from '../../redux/actions/events/ActionType';
+import { connect } from 'react-redux';
 
-class AddEvent extends Component{
+class UpdateEvent extends Component{
 
     constructor(props){
         super(props);
@@ -15,6 +17,11 @@ class AddEvent extends Component{
             lenght: 1,
             show: false
         }
+    }
+
+    componentWillMount(){
+        const {id} = this.props.match.params;
+        this.props.getEvent(id);
     }
 
     _loadComponent(){
@@ -44,7 +51,7 @@ class AddEvent extends Component{
         }
     }
 
-    _remove(position){
+    /* _remove(position){
         let { schedules,lenght } = this.state;
         let newSchedules = [
             ...schedules.slice(0, position),
@@ -72,7 +79,7 @@ class AddEvent extends Component{
             schedules:newSchedules,
             lenght: lenght
         });
-    }
+    } */
 
     _getData(){
         const title = this.refs.title.value;
@@ -223,17 +230,11 @@ class AddEvent extends Component{
                                     <span className="focus-input100"></span>
                                 </div>
 
-                                {
-                                    this.state.schedules.map((schedule,index) => 
-                                        <Schedule data={schedule} key={index} onRemove={() => this._remove(index)}/>
-                                    )
-                                }
-
-                                <div className="container-login100-form-btn">
+                                {/* <div className="container-login100-form-btn">
                                     <button className="login100-form-btn" onClick={this._add.bind(this)} type="button">
                                         Agregar Horario
                                     </button>
-                                </div>
+                                </div> */}
 
                                 <div className="wrap-input100 validate-input m-b-26" style={{paddingTop:"15px",paddingBottom:"15px"}} data-validate="Municipio es requerido">
                                     <span className="label-input100">Municipio</span>
@@ -383,7 +384,7 @@ class AddEvent extends Component{
                                 </div>
 
                                 <div className="container-login100-form-btn">
-                                    <input className="login100-form-btn" onClick={this._getData.bind(this)}>
+                                    <input className="login100-form-btn" defaultValue="Actualizar">
 
                                     </input>
                                 </div>
@@ -396,4 +397,18 @@ class AddEvent extends Component{
     }
 }
 
-export default AddEvent;
+const mapStateToProps = ({stateEvent}) => {
+    return {
+        stateEvent: stateEvent
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getEvent: (id) => dispatch(GET_EVENT_ACTION(id))
+    };
+};
+
+const ConnectUpdateEvent =  connect(mapStateToProps,mapDispatchToProps)(UpdateEvent);
+
+export default ConnectUpdateEvent;

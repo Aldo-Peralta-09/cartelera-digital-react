@@ -37,7 +37,8 @@ class Signup extends Component{
                 newSuccess.push(item);
             })
             this.setState({
-                success: newSuccess
+                success: newSuccess,
+                errors: []
             })
         }
     }
@@ -48,6 +49,10 @@ class Signup extends Component{
         const dependency = this.refs.dependency.value;
         const password = this.refs.password.value;
         this.props.sendUser(name,email,dependency,password);
+        this.setState({
+            success: [],
+            errors: []
+        })
     }
 
     render(){

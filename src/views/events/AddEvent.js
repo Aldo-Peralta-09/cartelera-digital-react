@@ -18,7 +18,9 @@ class AddEvent extends Component{
         show: false,
         hours: [""],
         errors: [],
-        success: []
+        success: [],
+        image: null,
+        banner: null
     }
 
     componentWillReceiveProps(nextProps){
@@ -128,38 +130,47 @@ class AddEvent extends Component{
     }
 
     _getData(){
-        const title = this.refs.title.value;
-        const description = this.refs.description.value;
+        let data = new FormData();
+        data.append('title',this.refs.title.value);
+        data.append('description',this.refs.description.value);
         const discipline = this.refs.discipline.value;
         let disciplineAll = [];
         DISCIPLINES.map((ds) => {
             if(ds.name === discipline){
-                disciplineAll.push(ds);
+                disciplineAll.push(ds.name);
+                disciplineAll.push(ds.color);
             }
         })
-        const category = this.refs.category.value;
-        const type = this.refs.type.value;
-        /* const hierarchy = this.refs.hierarchy.value;
-        let mainEvent = null;
-        if(this.refs.evento){
-            mainEvent = this.refs.evento.value;
-        } */
-        const start = this.refs.start.value;
-        const finish = this.refs.finish.value;
-        const hour = this.state.hours;
-        const municipality = this.refs.municipality.value;
+        console.log(disciplineAll);
+        data.append('discipline',disciplineAll);
+        data.append('category',this.refs.category.value);
+        data.append('type',this.refs.type.value);
+        data.append('hierarchy',null);
+        data.append('event',null);
+        data.append('start',this.refs.start.value);
+        data.append('finish',this.refs.finish.value);
+        data.append('dates',this.state.hours);
+        data.append('municipality',this.refs.municipality.value);
         const place = this.refs.place.value;
         let placeAll = [];
         PLACES.map((pl) => {
             if(pl.name === place){
-                placeAll.push(pl);
+                placeAll.push(pl.name);
+                let address = pl.address.street + ' ' +
+                    pl.address.numExt + ', ' + 
+                    pl.address.colony  + ', ' + 
+                    pl.address.cp  + ', ' + 
+                    pl.address.municipality;
+                placeAll.push(address);
             }
         })
-        const organizer = this.refs.organizer.value;
-        const speaker = this.refs.speaker.value;
-        const url = this.refs.url.value;
-        const entry = this.refs.entry.value;
-        const price = this.refs.price.value;
+        console.log(placeAll);
+        data.append('place',placeAll);
+        data.append('organizer',this.refs.organizer.value);
+        data.append('speaker',this.refs.speaker.value);
+        data.append('url',this.refs.url.value);
+        data.append('entry',this.refs.entry.value);
+        data.append('price',this.refs.price.value);
         const dis1 = this.refs.discount1.value;
         const dis2 = this.refs.discount2.value;
         let discount = [];
@@ -171,37 +182,28 @@ class AddEvent extends Component{
         } else {
             discount.push(null);
         }
-        const publico = this.refs.public.value;
-        const especificPublic = this.refs.especificPublic.value;
-        const gender = this.refs.gender.value;
-        const banner = this.refs.banner.value;
-        const image = this.refs.image.value;
-
-        this.props.sendEvent(
-            title,
-            description,
-            disciplineAll,
-            category,
-            type,
-            null,
-            null,
-            start,
-            finish,
-            hour,
-            municipality,
-            placeAll,
-            organizer,
-            speaker,
-            url,
-            entry,
-            price,
-            discount,
-            publico,
-            especificPublic,
-            gender,
-            banner,
-            image);
+        data.append('discount',discount);
+        data.append('publico',this.refs.public.value);
+        data.append('especificPublic',this.refs.especificPublic.value);
+        data.append('gender',this.refs.gender.value);
+        data.append('banner',this.state.banner);
+        data.append('image',this.state.image);
         
+        this.props.sendEvent(data);
+    }
+
+    onChangeHandlerBanner = event => {
+        console.log(event.target.files[0]);
+        this.setState({
+            banner: event.target.files[0]
+        })
+    }
+
+    onChangeHandlerImage = event => {
+        console.log(event.target.files[0]);
+        this.setState({
+            image: event.target.files[0]
+        })
     }
 
     render(){
@@ -456,7 +458,7 @@ class AddEvent extends Component{
                                     <div className="input-group mb-3">
                                         <div className="custom-file">
                                             <input type="hidden" name="MAX_FILE_SIZE" defaultValue="3000000"/>
-                                            <input type="file" className="custom-file-input" ref="banner" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
+                                            <input type="file" className="custom-file-input" onChange={this.onChangeHandlerBanner} ref="banner" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
                                             <label className="custom-file-label" htmlFor="inputGroupFile01">Selecciona un archivo</label>
                                         </div>
                                     </div>
@@ -467,7 +469,7 @@ class AddEvent extends Component{
                                     <div className="input-group mb-3">
                                         <div className="custom-file">
                                             <input type="hidden" name="MAX_FILE_SIZE" defaultValue="3000000"/>
-                                            <input type="file" className="custom-file-input" ref="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
+                                            <input type="file" className="custom-file-input" onChange={this.onChangeHandlerImage} ref="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
                                             <label className="custom-file-label" htmlFor="inputGroupFile01">Selecciona un archivo</label>
                                         </div>
                                     </div>
@@ -495,52 +497,7 @@ const mapStateToProps = ({responseNewEvent}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendEvent: (title,
-            description,
-            discipline,
-            category,
-            type,
-            hierarchy,
-            evento,
-            start,
-            finish,
-            dates,
-            municipality,
-            place,
-            organizer,
-            speaker,
-            url,
-            entry,
-            price,
-            discount,
-            publico,
-            especificPublic,
-            gender,
-            banner,
-            image) => dispatch(NEW_EVENT_ACTION(
-                title,
-                description,
-                discipline,
-                category,
-                type,
-                hierarchy,
-                evento,
-                start,
-                finish,
-                dates,
-                municipality,
-                place,
-                organizer,
-                speaker,
-                url,
-                entry,
-                price,
-                discount,
-                publico,
-                especificPublic,
-                gender,
-                banner,
-                image))
+        sendEvent: (datos) => dispatch(NEW_EVENT_ACTION(datos))
     };
 };
 

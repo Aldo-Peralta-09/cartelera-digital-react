@@ -65,4 +65,24 @@ const DELETE_USER_ACTION = (id) => {
     };
 }
 
-export {GET_USERS_ACTION,GET_USER_ACTION,NEW_USER_ACTION,UPDATE_USER_ACTION,DELETE_USER_ACTION};
+const LOGIN_ACTION = (datos) => {
+    return {
+        type: "LOGIN",
+        payload: axios.post(BASE_URL + '/users/signin',datos,{
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': `multipart/form-data; boundary=${datos._boundary}`,
+            }
+        }
+    )
+    };
+}
+
+const LOGOUT_ACTION = () => {
+    return {
+        type: "LOGOUT",
+        payload: axios.get(BASE_URL + '/users/logout')
+    };
+}
+
+export {GET_USERS_ACTION,GET_USER_ACTION,NEW_USER_ACTION,UPDATE_USER_ACTION,DELETE_USER_ACTION,LOGOUT_ACTION,LOGIN_ACTION};

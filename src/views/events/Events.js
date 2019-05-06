@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import '../../css/style.css';
-import {GET_EVENTS_ACTION, DELETE_EVENT_ACTION} from '../../redux/actions/events/ActionType';
+import {GET_EVENTS_ACTION} from '../../redux/actions/events/ActionType';
 import { connect } from 'react-redux';
 import EventCard from '../../components/EventCard';
 
@@ -9,15 +9,6 @@ class Events extends Component{
 
     componentDidMount(){
         this.props.getEvents();
-    }
-
-    componentWillReceiveProps(nextProps){
-        const ActualProps = this.props;
-        const NewProps = nextProps;
-
-        if(ActualProps.responseDeleteEvent.status === "Pending" && NewProps.responseDeleteEvent.status === "OK"){
-            this.props.getEvents();
-        }
     }
 
     render(){
@@ -28,8 +19,11 @@ class Events extends Component{
                         <div className="col-12 col-md-8 col-lg-6 text-center">
                             <div className="section-title">
                                 <h2>Eventos Registrados</h2>
-                                <p className="separator">Catalogo de Eventos registrados en la Cartelera Digital</p>
-                                <Link to="/add-event" className="btn btn-success scrollto">Agregar Evento</Link>
+                                <p className="separator">Catalogo de tus eventos registrados en la Cartelera Digital</p>
+                                <div className="btn-group" role="group" aria-label="Basic example">
+                                    <Link to="/add-event" className="btn btn-success scrollto">Agregar Evento</Link>
+                                    <button type="button" className="btn btn-danger">Cerrar Sesión</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -44,9 +38,8 @@ class Events extends Component{
     _renderEvents = () => {
         return this.props.stateEvents.map((evento,index) => {
             if(evento){
-                const BASE_URL = 'http://localhost:3000';
                 return(
-                    <EventCard evento={evento} url={BASE_URL} key={index}/> 
+                    <EventCard evento={evento} key={index}/> 
                 );
             }
             return null;
@@ -54,17 +47,15 @@ class Events extends Component{
     }
 }
 
-const mapStateToProps = ({stateEvents,responseDeleteEvent}) => {
+const mapStateToProps = ({stateEvents}) => {
     return {
-        stateEvents: stateEvents,
-        responseDeleteEvent: responseDeleteEvent
+        stateEvents: stateEvents
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getEvents: () => dispatch(GET_EVENTS_ACTION()),
-        deleteEvent: (id) => dispatch(DELETE_EVENT_ACTION(id))
+        getEvents: () => dispatch(GET_EVENTS_ACTION())
     }; 
 };
 

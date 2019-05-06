@@ -10,7 +10,7 @@ const GET_EVENTS_REDUCER = (state = [], action) => {
 const GET_EVENT_REDUCER = (state = [], action) => {
     switch(action.type){
         case "GET_EVENT_PENDING": return state;
-		case "GET_EVENT_FULFILLED": return action.payload.data.user;
+		case "GET_EVENT_FULFILLED": return action.payload.data.evento;
 		case "GET_EVENT_REJECTED": return state;
 		default: return state;
     }

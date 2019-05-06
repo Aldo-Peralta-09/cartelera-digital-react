@@ -10,6 +10,7 @@ import Users from './views/users/Users';
 import UpdateUser from './views/users/UpdateUser';
 import Events from './views/events/Events';
 import AddEvent from './views/events/AddEvent';
+import UpdateEvent from './views/events/UpdateEvent';
 
 import { 
 	BrowserRouter as Router, 
@@ -29,6 +30,7 @@ class App extends Component {
             <Route path="/user/edit/:id" component={UpdateUser}/>
             <Route path="/events" component={Events}/>
             <Route path="/add-event" component={AddEvent}/>
+            <Route path="/event/edit/:id" component={UpdateEvent}/>
           </Switch>
           <Footer/>
       </Router>
