@@ -2,19 +2,71 @@ import React, {Component} from 'react';
 import {DISCIPLINES,CATEGORIES, MUNICIPALITIES, PLACES} from '../../data/data';
 import Schedule from '../../components/Input';
 import MainEvent from '../../components/MainEvent';
+import {NEW_EVENT_ACTION} from '../../redux/actions/events/ActionType';
+import { connect } from 'react-redux';
+import Alert from '../../components/Alert';
+import AlertSuccess from '../../components/AlertSucces';
 
 class AddEvent extends Component{
 
-    constructor(props){
-        super(props);
-        this.state = {
-            schedules : [{
-                title: "Horario ",
-                name: "hour"
-            }],
-            lenght: 1,
-            show: false
+    state = {
+        schedules : [{
+            title: "Horario " ,
+            name: "hour"
+        }],
+        lenght: 1,
+        show: false,
+        hours: [""],
+        errors: [],
+        success: []
+    }
+
+    componentWillReceiveProps(nextProps){
+        const NewProps = nextProps;
+
+        if(NewProps.responseNewEvent.status === "Error"){
+            let newErrors = [];
+            NewProps.responseNewEvent.errors.map((item) => {
+                newErrors.push(item);
+            })
+            this.setState({
+                errors: newErrors
+            })
         }
+
+        if(NewProps.responseNewEvent.status === "OK"){
+            this.refs.title.value = "";
+            this.refs.description.value = "";
+            this.refs.start.value = "";
+            this.refs.finish.value = "";
+            this.refs.speaker.value = "";
+            this.refs.url.value = "";
+            this.refs.price.value = "";
+            this.refs.discount1.value = "off";
+            this.refs.discount2.value = "off";
+            this.refs.banner.value = "";
+            this.refs.image.value = "";
+            let newSuccess = [];
+            NewProps.responseNewEvent.ok.map((item) => {
+                newSuccess.push(item);
+            })
+            this.setState({
+                success:newSuccess
+            })
+        }
+    }
+
+    _addHour(index, { target: { value:data } }){
+        console.log("RESC", data);
+        let hourss =[...this.state.hours];
+        hourss[index] = data;
+        this.setState({
+            hours:hourss
+        },() =>{
+            console.log(this.state.hours);
+        })
+
+        
     }
 
     _loadComponent(){
@@ -58,19 +110,20 @@ class AddEvent extends Component{
     }
 
     _add(){
-        let { schedules,lenght } = this.state;
-        ++lenght;
+        let { schedules,lenght,hours } = this.state;
+        lenght++;
         let newSchedules = [
             ...schedules,
             {
                 title: "Horario " + lenght,
-                name: "hour[]"
+                name: "hour" + lenght
             }
         ]
 
         this.setState({
             schedules:newSchedules,
-            lenght: lenght
+            lenght: lenght,
+            hours: [...hours,...[""]]
         });
     }
 
@@ -86,14 +139,14 @@ class AddEvent extends Component{
         })
         const category = this.refs.category.value;
         const type = this.refs.type.value;
-        const hierarchy = this.refs.hierarchy.value;
+        /* const hierarchy = this.refs.hierarchy.value;
         let mainEvent = null;
         if(this.refs.evento){
             mainEvent = this.refs.evento.value;
-        }
+        } */
         const start = this.refs.start.value;
         const finish = this.refs.finish.value;
-        //let hour = this.refs.hour.value;
+        const hour = this.state.hours;
         const municipality = this.refs.municipality.value;
         const place = this.refs.place.value;
         let placeAll = [];
@@ -107,24 +160,34 @@ class AddEvent extends Component{
         const url = this.refs.url.value;
         const entry = this.refs.entry.value;
         const price = this.refs.price.value;
-        const discount = this.refs.discount.value;
+        const dis1 = this.refs.discount1.value;
+        const dis2 = this.refs.discount2.value;
+        let discount = [];
+        if(dis1 === "on"){
+            discount.push("INAPAM");
+        }
+        if(dis2 === "on"){
+            discount.push("Estudiantes")
+        } else {
+            discount.push(null);
+        }
         const publico = this.refs.public.value;
         const especificPublic = this.refs.especificPublic.value;
         const gender = this.refs.gender.value;
         const banner = this.refs.banner.value;
         const image = this.refs.image.value;
 
-        console.log(
-            {title,
+        this.props.sendEvent(
+            title,
             description,
             disciplineAll,
             category,
             type,
-            hierarchy,
-            mainEvent,
+            null,
+            null,
             start,
             finish,
-            //hour,
+            hour,
             municipality,
             placeAll,
             organizer,
@@ -137,8 +200,7 @@ class AddEvent extends Component{
             especificPublic,
             gender,
             banner,
-            image}
-        );
+            image);
         
     }
 
@@ -155,6 +217,14 @@ class AddEvent extends Component{
                             <div className="text-center" style={{paddingTop:"15px"}}>
                                 <img src={require('../../images/cartelera.png')} className="rounded" alt="Cartelera Logo"/>
                             </div>
+
+                            {this.state.errors.map((item,index) => {
+                                return <Alert item={item} key={index}/>
+                            })}
+
+                            {this.state.success.map((item,index) => {
+                                return <AlertSuccess item={item} key={index}/>
+                            })}
 
                             <form className="login100-form validate-form">
                                 
@@ -208,7 +278,7 @@ class AddEvent extends Component{
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">
-                                                    <input type="radio" id="ckb1" onChange={() => {this._hideComponent(this.state.show)}} ref="hierarchy" defaultValue="Evento" aria-label="Checkbox for following text input"/>
+                                                    <input type="radio" id="ckb"onChange={() => {this._hideComponent(this.state.show)}} ref="hierarchy" defaultValue="Evento" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
                                             <input type="text" className="form-control" placeholder="Evento" aria-label="Text input with checkbox" disabled/>
@@ -216,7 +286,7 @@ class AddEvent extends Component{
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">
-                                                    <input type="radio" id="ckb2" onChange={() => {this._showComponent(this.state.show)}} ref="hierarchy" defaultValue="Sub-Evento" aria-label="Checkbox for following text input"/>
+                                                    <input type="radio" id="ckb" onChange={() => {this._showComponent(this.state.show)}} ref="hierarchy" defaultValue="Sub-Evento" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
                                             <input type="text" className="form-control" placeholder="Sub-Evento" aria-label="Text input with checkbox"disabled/>
@@ -240,7 +310,13 @@ class AddEvent extends Component{
 
                                 {
                                     this.state.schedules.map((schedule,index) => 
-                                        <Schedule data={schedule} key={index} onRemove={() => this._remove(index)}/>
+                                        <Schedule 
+                                            data={schedule} 
+                                            key={index} 
+                                            index={index} 
+                                            addHour={this._addHour.bind(this)} 
+                                            onRemove={() => this._remove(index)}
+                                        />
                                     )
                                 }
 
@@ -323,7 +399,7 @@ class AddEvent extends Component{
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">
-                                                    <input type="checkbox" id="ckb10" ref="discount" aria-label="Checkbox for following text input"/>
+                                                    <input type="checkbox" id="ckb10" ref="discount1" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
                                             <input type="text" className="form-control" placeholder="INAPAM" defaultValue="INAPAM" aria-label="Text input with checkbox" disabled/>
@@ -331,7 +407,7 @@ class AddEvent extends Component{
                                         <div className="input-group mb-3">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">
-                                                    <input type="checkbox" id="ckb20" ref="discount" aria-label="Checkbox for following text input"/>
+                                                    <input type="checkbox" id="ckb20" ref="discount2" aria-label="Checkbox for following text input"/>
                                                 </div>
                                             </div>
                                             <input type="text" className="form-control" placeholder="Estudiantes" defaultValue="Estudiantes" aria-label="Text input with checkbox"disabled/>
@@ -398,8 +474,8 @@ class AddEvent extends Component{
                                 </div>
 
                                 <div className="container-login100-form-btn">
-                                    <input className="login100-form-btn" onClick={this._getData.bind(this)}>
-
+                                    <input className="login100-form-btn" onClick={this._getData.bind(this)} type="button" defaultValue="Guardar">
+                                        
                                     </input>
                                 </div>
                             </form> 
@@ -411,4 +487,63 @@ class AddEvent extends Component{
     }
 }
 
-export default AddEvent;
+const mapStateToProps = ({responseNewEvent}) => {
+    return {
+        responseNewEvent: responseNewEvent
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        sendEvent: (title,
+            description,
+            discipline,
+            category,
+            type,
+            hierarchy,
+            evento,
+            start,
+            finish,
+            dates,
+            municipality,
+            place,
+            organizer,
+            speaker,
+            url,
+            entry,
+            price,
+            discount,
+            publico,
+            especificPublic,
+            gender,
+            banner,
+            image) => dispatch(NEW_EVENT_ACTION(
+                title,
+                description,
+                discipline,
+                category,
+                type,
+                hierarchy,
+                evento,
+                start,
+                finish,
+                dates,
+                municipality,
+                place,
+                organizer,
+                speaker,
+                url,
+                entry,
+                price,
+                discount,
+                publico,
+                especificPublic,
+                gender,
+                banner,
+                image))
+    };
+};
+
+const ConnectAddEvent = connect(mapStateToProps,mapDispatchToProps)(AddEvent);
+
+export default ConnectAddEvent;
