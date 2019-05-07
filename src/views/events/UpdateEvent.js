@@ -22,6 +22,8 @@ class UpdateEvent extends Component{
     componentWillMount(){
         const {id} = this.props.match.params;
         this.props.getEvent(id);
+        console.log(this.props.stateEvent);
+        
     }
 
     _loadComponent(){

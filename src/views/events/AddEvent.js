@@ -20,7 +20,8 @@ class AddEvent extends Component{
         errors: [],
         success: [],
         image: null,
-        banner: null
+        banner: null,
+        event: null
     }
 
     componentWillReceiveProps(nextProps){
@@ -59,22 +60,24 @@ class AddEvent extends Component{
     }
 
     _addHour(index, { target: { value:data } }){
-        console.log("RESC", data);
         let hourss =[...this.state.hours];
         hourss[index] = data;
         this.setState({
             hours:hourss
-        },() =>{
-            console.log(this.state.hours);
         })
+    }
 
-        
+    _getEvent({ target: { value:data } }){
+        let mainEvent = data;
+        this.setState({
+            event:mainEvent
+        })
     }
 
     _loadComponent(){
         let { show } = this.state;
         if(show){
-            return <MainEvent/>
+            return <MainEvent getEvent={this._getEvent.bind(this)}/>
         } else{
             return null;
         }
@@ -141,12 +144,11 @@ class AddEvent extends Component{
                 disciplineAll.push(ds.color);
             }
         })
-        console.log(disciplineAll);
         data.append('discipline',disciplineAll);
         data.append('category',this.refs.category.value);
         data.append('type',this.refs.type.value);
         data.append('hierarchy',null);
-        data.append('event',null);
+        data.append('event',this.state.event);
         data.append('start',this.refs.start.value);
         data.append('finish',this.refs.finish.value);
         data.append('dates',this.state.hours);
@@ -164,7 +166,6 @@ class AddEvent extends Component{
                 placeAll.push(address);
             }
         })
-        console.log(placeAll);
         data.append('place',placeAll);
         data.append('organizer',this.refs.organizer.value);
         data.append('speaker',this.refs.speaker.value);
@@ -188,7 +189,6 @@ class AddEvent extends Component{
         data.append('gender',this.refs.gender.value);
         data.append('banner',this.state.banner);
         data.append('image',this.state.image);
-        
         this.props.sendEvent(data);
     }
 
